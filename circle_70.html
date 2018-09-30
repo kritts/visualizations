@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body {
+  font: 10px sans-serif;
+}
+
+svg text{
+  fill:grey;
+  font-size:11px;
+}
+svg .values text{
+  pointer-events:none;
+  stroke-width: 0.5px;
+}
+.groups:hover{
+  cursor:pointer;
+  font-weight:bold;
+}
+</style>
+<body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://vizjs.org/viz.v1.1.0.min.js"></script>
+<script>
+
+var data = 
+[['Mele','Eratap',2.1],
+['North Efate','North Ambae',0.08],
+['East Santo','West Tanna',0.2],
+['South Santo','Port Vila',4.86],
+['Mele','West Tanna',0.98],
+['North Efate','Mele',4.28],
+['Luganville','North Efate',0.19],
+['North Pentecost','Central Pentecost 1',20.31],
+['Eratap','East Santo',0.27],
+['Luganville','South Santo',12.9],
+['Port Vila','East Santo',0.77],
+['North Pentecost','West Tanna',0.13],
+['North Pentecost','Eratap',0.51],
+['South Santo','North Pentecost',0.11],
+['Erakor','South Santo',0.4],
+['West Tanna','North Pentecost',0.06],
+['Port Vila','South Santo',0.49],
+['West Tanna','Erakor',2.62],
+['North Efate','North Pentecost',0.17],
+['South Santo','Mele',0.4],
+['Mele','Central Pentecost 1',0.13],
+['Port Vila','Mele',17.33],
+['North Pentecost','East Santo',0.58],
+['North Efate','East Santo',0.16],
+['Eratap','North Ambae',0.33],
+['Port Vila','North Ambae',1.26],
+['East Santo','South Santo',3.84],
+['Central Pentecost 1','Luganville',8.24],
+['North East Malekula','South Santo',3.91],
+['Erakor','East Santo',0.26],
+['Mele','North Ambae',0.15],
+['North Efate','Erakor',4.48],
+['North Ambae','Central Pentecost 1',4.31],
+['Central Pentecost 1','North East Malekula',0.04],
+['North Pentecost','North Ambae',49.04],
+['Mele','North East Malekula',0.26],
+['North East Malekula','Mele',0.53],
+['Eratap','North Pentecost',0.28],
+['Luganville','Mele',0.63],
+['Mele','East Santo',0.18],
+['Luganville','East Santo',20.42],
+['Mele','Luganville',1.23],
+['North Ambae','East Santo',1.53],
+['Central Pentecost 1','West Tanna',0.05],
+['East Santo','Eratap',0.37],
+['North Efate','North East Malekula',0.13],
+['North Ambae','North Efate',0.1],
+['North East Malekula','Port Vila',12.86],
+['Luganville','North Ambae',3.71],
+['North Efate','Eratap',2.63],
+['Erakor','North Ambae',0.27],
+['West Tanna','Port Vila',19.55],
+['North East Malekula','Central Pentecost 1',0.03],
+['South Santo','East Santo',5.0],
+['Erakor','Luganville',1.69],
+['Eratap','North Efate',1.01],
+['Eratap','South Santo',0.05],
+['West Tanna','Eratap',1.71],
+['North Efate','Luganville',1.06],
+['Luganville','North Pentecost',2.1],
+['Central Pentecost 1','North Ambae',7.31],
+['Mele','South Santo',0.14],
+['North Efate','Port Vila',62.63],
+['South Santo','North Ambae',0.34],
+['East Santo','North Ambae',0.94],
+['West Tanna','Luganville',1.04],
+['North Pentecost','North Efate',0.16],
+['North Pentecost','South Santo',0.11],
+['North East Malekula','West Tanna',0.39],
+['West Tanna','North East Malekula',0.07],
+['North East Malekula','Eratap',0.58],
+['Central Pentecost 1','Erakor',0.95],
+['East Santo','Port Vila',5.91],
+['Mele','North Pentecost',0.12],
+['North Ambae','Eratap',0.79],
+['Eratap','North East Malekula',0.36],
+['East Santo','Central Pentecost 1',0.2],
+['South Santo','Luganville',56.15],
+['Eratap','Mele',2.34],
+['Port Vila','Luganville',6.45],
+['North East Malekula','Erakor',1.17],
+['Luganville','Erakor',1.49],
+['North Efate','West Tanna',0.28],
+['North Ambae','South Santo',0.55],
+['North Pentecost','Mele',0.41],
+['West Tanna','East Santo',0.17],
+['Eratap','Port Vila',51.87],
+['West Tanna','Central Pentecost 1',0.02],
+['North East Malekula','Luganville',16.83],
+['East Santo','Luganville',64.92],
+['Eratap','Central Pentecost 1',0.22],
+['Port Vila','West Tanna',3.6],
+['West Tanna','Mele',1.39],
+['North Ambae','North East Malekula',0.15],
+['North Pentecost','Port Vila',9.93],
+['South Santo','Eratap',0.17],
+['Central Pentecost 1','Port Vila',12.23],
+['North Ambae','Luganville',18.21],
+['North Ambae','Mele',0.33],
+['East Santo','Erakor',0.83],
+['Central Pentecost 1','North Efate',0.09],
+['Mele','Port Vila',73.5],
+['Luganville','Central Pentecost 1',1.06],
+['Central Pentecost 1','East Santo',0.6],
+['North Ambae','West Tanna',0.14],
+['Eratap','West Tanna',1.45],
+['West Tanna','South Santo',0.13],
+['Port Vila','North East Malekula',1.26],
+['Erakor','North East Malekula',0.24],
+['Luganville','Port Vila',14.06],
+['Central Pentecost 1','Mele',0.55],
+['North East Malekula','North Efate',0.07],
+['North Ambae','Port Vila',12.47],
+['North East Malekula','East Santo',1.04],
+['Port Vila','Eratap',10.72],
+['Eratap','Erakor',24.39],
+['Mele','North Efate',1.38],
+['North Efate','South Santo',0.09],
+['South Santo','Erakor',1.53],
+['Erakor','West Tanna',1.15],
+['Port Vila','Erakor',24.51],
+['Erakor','Eratap',14.7],
+['Erakor','Central Pentecost 1',0.16],
+['Port Vila','North Pentecost',0.97],
+['East Santo','North Pentecost',0.46],
+['East Santo','North East Malekula',0.73],
+['East Santo','North Efate',0.08],
+['Central Pentecost 1','North Pentecost',35.95],
+['West Tanna','North Efate',0.16],
+['Erakor','Port Vila',67.0],
+['West Tanna','North Ambae',0.07],
+['North Pentecost','Erakor',0.84],
+['Erakor','North Efate',0.95],
+['South Santo','West Tanna',0.13],
+['Eratap','Luganville',1.38],
+['Central Pentecost 1','South Santo',0.16],
+['North Ambae','North Pentecost',43.91],
+['North Pentecost','North East Malekula',0.11],
+['South Santo','North East Malekula',3.97],
+['North East Malekula','North Ambae',0.22],
+['Mele','Erakor',3.35],
+['Luganville','Eratap',0.7],
+['Erakor','Mele',2.21],
+['North Pentecost','Luganville',9.87],
+['South Santo','North Efate',0.07],
+['Port Vila','North Efate',4.98],
+['Luganville','West Tanna',0.29],
+['Erakor','North Pentecost',0.19],
+['North Efate','Central Pentecost 1',0.04],
+['North Ambae','Erakor',1.17],
+['East Santo','Mele',0.32],
+['South Santo','Central Pentecost 1',0.06],
+['Port Vila','Central Pentecost 1',0.75],
+['North East Malekula','North Pentecost',0.04],
+['Central Pentecost 1','Eratap',1.02],
+['Luganville','North East Malekula',3.63]]
+
+
+var colors = {
+"Central Pentecost 1": "#da4480", 
+"Mele": "#aab740", 
+"East Santo": "#ce58c0", 
+"North East Malekula": "#50a26e",
+"Port Vila": "#d1434b", 
+"Erakor": "#45c0bc", 
+"Eratap": "#4e7bda",
+"West Tanna": "#b58dde",
+"North Pentecost": "#e29074",
+"South Santo": "#dc85b6",
+"Luganville": "#000080", 
+"North Ambae": "#800000",
+"North Efate": "#C0C0C0",
+};
+
+var sortOrder =[
+"Luganville", "Central Pentecost 1", "East Santo", "West Tanna", "North Ambae", "North Efate", "Port Vila", "Erakor", "North Pentecost", "North East Malekula", "Mele", "South Santo", "Eratap"
+];
+
+function sort(a,b){ return d3.ascending(sortOrder.indexOf(a),sortOrder.indexOf(b)); }
+
+var ch = viz.ch().data(data)
+    .padding(.01)
+    .sort(sort)
+	  .innerRadius(430)
+	  .outerRadius(450)
+	  .duration(1000)
+	  .chordOpacity(0.3)
+	  .labelPadding(.03)
+    .fill(function(d){ return colors[d];});
+
+var width=1200, height=1100;
+
+var svg = d3.select("body").append("svg").attr("height",height).attr("width",width);
+
+svg.append("g").attr("transform", "translate(600,550)").call(ch);
+
+// adjust height of frame in bl.ocks.org
+d3.select(self.frameElement).style("height", height+"px").style("width", width+"px");     
+</script>
